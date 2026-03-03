@@ -1,143 +1,76 @@
-Shipping Charge Estimator
+### Shipping Charge Estimator
 
-A Spring Boot application that calculates shipping charges for a B2B marketplace by:
+A Spring Boot application that calculates shipping charges for a B2B marketplace.
 
-Selecting the nearest warehouse
+It:
 
-Choosing the optimal transport mode based on distance
+Finds the nearest warehouse
 
-Applying pricing rules based on delivery speed and shipment weight
+Selects transport mode based on distance
 
-Returning structured JSON responses with proper error handling
+Applies pricing rules based on delivery speed and weight
 
-⚙️ Tech Stack
+Returns structured JSON responses with proper error handling
 
-Java 17
+### Tech Stack
 
-Spring Boot 3
+Java 17 • Spring Boot 3 • Spring Web • Spring Data JPA • H2
+Spring Cache • Lombok • JUnit + MockMvc
 
-Spring Web
-
-Spring Data JPA
-
-H2 (In-Memory DB)
-
-Spring Cache
-
-Lombok
-
-JUnit + MockMvc
-
-▶️ Run the Application
+### Run the App
 mvn spring-boot:run
 
-Base URL: http://localhost:8080
+Base URL:
 
-H2 Console: http://localhost:8080/h2-console
+http://localhost:8080
 
-JDBC: jdbc:h2:mem:shippingdb
+H2 Console:
 
-User: sa
-
-Password: (empty)
+http://localhost:8080/h2-console
 
 Sample data is preloaded via data.sql.
 
-📌 API Endpoints
-1️⃣ Nearest Warehouse
-GET /api/v1/warehouse/nearest?sellerId=1
+### APIs
 
-Returns the nearest warehouse for the seller.
+1. Nearest Warehouse
 
-2️⃣ Shipping Charge (Direct)
-GET /api/v1/shipping-charge?warehouseId=1&customerId=1&deliverySpeed=STANDARD&weightKg=5
+**GET**  /api/v1/warehouse/nearest?sellerId=1
 
-Returns:
+2. Shipping Charge (Direct)
 
-{
-  "shippingCharge": 145.75
-}
-3️⃣ Shipping Charge (Seller-Based)
-POST /api/v1/shipping-charge/calculate
+**GET** /api/v1/shipping-charge?warehouseId=1&customerId=1&deliverySpeed=STANDARD&weightKg=5
 
-Request:
+3. Shipping Charge (Seller-Based)
 
-{
-  "sellerId": 1,
-  "customerId": 1,
-  "deliverySpeed": "STANDARD",
-  "totalWeightKg": 10
-}
+**POST** /api/v1/shipping-charge/calculate
 
-Response:
 
-{
-  "shippingCharge": 210.40,
-  "nearestWarehouse": {
-    "warehouseId": 2,
-    "warehouseLocation": {
-      "lat": 12.97,
-      "lng": 77.59
-    }
-  }
-}
-🏗 Architecture
+### Architecture
 
 Layered design:
 
 Controller → Service → Repository
 
-## API Demo
-
-### 1. Nearest Warehouse
-![Nearest Warehouse](ScreenShots/nearest-warehouse.png)
-
-### 2. Shipping Charge (Seller-Based)
-![Shipping Charge Success](ScreenShots/shipping-calc-success.png)
-
-### 3. Error Handling Example
-![Error Handling](ScreenShots/shipping-error.png)
-
-Performance Optimization
+### Optimization
 
 @EnableCaching enabled
 
-Cached:
+Caches warehouse lookup & shipping calculations
 
-Nearest warehouse lookup
+### Error Handling
 
-Shipping charge calculations
+Centralized @ControllerAdvice
 
-Improves performance for repeated requests.
+**400** → Bad request
 
+**404** → Not found
 
-🛡 Error Handling
+**500** → Server error
 
-Centralized @ControllerAdvice:
-
-400 → Validation / bad input
-
-404 → Entity not found
-
-500 → Unexpected error
-
-All errors returned as structured JSON.
-
-🧪 Testing
+### Testing
 
 Integration tests using:
 
 @SpringBootTest
 
 @AutoConfigureMockMvc
-
-Verifies:
-
-Warehouse lookup
-
-Shipping charge calculation
-
-Seller-based workflow
-
-JSON response structure
-
