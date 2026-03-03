@@ -12,10 +12,15 @@ Applies pricing rules based on delivery speed and weight
 
 Returns structured JSON responses with proper error handling
 
+
+
 ⚙️ Tech Stack
 
 Java 17 • Spring Boot 3 • Spring Web • Spring Data JPA • H2
 Spring Cache • Lombok • JUnit + MockMvc
+
+
+
 
 ▶️ Run the App
 mvn spring-boot:run
@@ -29,6 +34,8 @@ http://localhost:8080/h2-console
 
 
 Sample data is preloaded via data.sql.
+
+
 
 
 📌 APIs
@@ -46,15 +53,22 @@ POST /api/v1/shipping-charge/calculate
 
 
 
+
+
 🏗 Architecture
 Layered design:
 
 Controller → Service → Repository
 
+
+
+
 🚀 Optimization
 @EnableCaching enabled
 
 Caches warehouse lookup & shipping calculations
+
+
 
 
 🛡 Error Handling
@@ -65,6 +79,8 @@ Centralized @ControllerAdvice
 404 → Not found
 
 500 → Server error
+
+
 
 
 🧪 Testing
